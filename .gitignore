@@ -1,0 +1,7 @@
+.idea
+dist
+moydomjkh/__pycache__
+MANIFEST
+tests
+.vscode
+moydomjkh.egg-info
