@@ -9,6 +9,3 @@ class InvalidSession(SessionException):
 class SessionTimeout(SessionException):
     pass
 
-
-class MeterException(BaseException):
-    pass

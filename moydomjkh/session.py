@@ -10,13 +10,6 @@ _LOGGER = logging.getLogger(__name__)
 
 _BASE_URL = 'https://newlk.erconline.ru/api/v1'
 
-if _LOGGER.getEffectiveLevel() == 10:  # DEBUG
-    import http
-
-    http_client = logging.getLogger('urllib3.connectionpool')
-    http_client.setLevel(logging.INFO)
-    http.client.HTTPConnection.debuglevel = 1
-
 
 class Session:
     __session = None
@@ -38,7 +31,7 @@ class Session:
                 raise SessionException(e)
 
         if resp.status_code != 200:
-            raise SessionException(
+            raise InvalidSession(
                 f'Error response. status code: {resp.status_code},'
                 f' error details: {json.dumps(resp.json(), ensure_ascii=False)}')
 
@@ -78,3 +71,14 @@ class Session:
                 f' error details: {json.dumps(resp.json(), ensure_ascii=False)}')
 
         return resp.json()
+
+    def check_credentials(self) -> bool:
+        _LOGGER.debug(f'trying to login')
+        result = True
+        if not self.__session:
+            try:
+                self.__establish()
+            except SessionException as e:
+                _LOGGER.debug(e)
+                result = False
+        return result

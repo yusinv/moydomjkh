@@ -39,7 +39,7 @@ def main():
                 exit(1)
 
             meter = None
-            if re.match(".+-.+-.+", args.meter):
+            if re.match("[0-9]+-[0-9]+-[0-9]+", args.meter):
                 meter_ids = args.meter.split('-')
                 account = user.accounts.get(f'{meter_ids[0]}-{meter_ids[1]}')
                 if account:
