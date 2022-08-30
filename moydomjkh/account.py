@@ -95,13 +95,14 @@ class Account:
             self.__fetch_info()
         return self.__info
 
-    def generate_payment_link(self):
+    def generate_payment_url(self, payment_value=None):
         preview = self.session.call('user/account/payonline/preview',
                                     data={'id_company': self.company_id,
                                           'id_account': self.account_id,
                                           'pay_type': '2'})['merchant'][0]
 
-        payment_value = float(preview['itog']['value'])
+        if payment_value is None:
+            payment_value = float(preview['itog']['value'])
 
         if payment_value < 5.:
             payment_value = 5.

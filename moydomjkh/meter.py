@@ -45,6 +45,12 @@ class Meter:
             self.__fetch_history()
         return self.__measure_history
 
+    @property
+    def value(self):
+        if self.__info is None:
+            self.__fetch_meter_info()
+        return float(self.meter_info['5']['value'])
+
     def upload_measure(self, value):
         self.session.call('user/account/meter/measure/set',
                           data={'id_company': self.company_id,
@@ -52,10 +58,14 @@ class Meter:
                                 'id_meter': self.meter_id,
                                 'value': value})
 
+        self.__info = None
+
     def to_json(self, verbose):
         result = {'meter_id': f'{self.company_id}-{self.account_id}-{self.meter_id}',
                   'name': self.title,
-                  'value': self.meter_info['5']['value']}
+                  'value': self.value,
+                  'serial_number': self.meter_info['1']['value'],
+                  'next_check_date': self.meter_info['4']['value']}
 
         if verbose > 2:
             result['precision'] = self.precision

@@ -10,7 +10,7 @@ with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
 setup(
     name='moydomjkh',
     packages=['moydomjkh'],
-    version='0.0.2',
+    version='0.0.3',
     license='MIT',
     description='api для работы с порталом https://newlk.erconline.ru/',
     long_description=long_description,
